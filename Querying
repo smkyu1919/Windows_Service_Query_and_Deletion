@@ -1,0 +1,13 @@
+$keyword = "AAAAA"
+
+$matches = Get-Service | Where-Object {
+  $_.Name        -like "*$keyword*" -or
+  $_.DisplayName -like "*$keyword*"
+}
+
+if ($matches) {
+  "EXISTS"
+  $matches | Select-Object Name, DisplayName, Status | Format-Table -AutoSize | Out-String
+} else {
+  "NOT_FOUND"
+}
