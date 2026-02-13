@@ -1,0 +1,21 @@
+#powershell
+#ServiceName example = 'AAAAA AAAAA'
+
+$serviceName = "AAAAA AAAAA"
+
+# 서비스 존재 여부 확인
+$service = Get-Service -Name $serviceName -ErrorAction SilentlyContinue
+
+if ($service) {
+    # 실행 중이면 중지
+    if ($service.Status -ne "Stopped") {
+        Stop-Service -Name $serviceName -Force
+    }
+
+    # 서비스 삭제
+    sc.exe delete "$serviceName"
+
+    Write-Output "SERVICE_DELETED"
+} else {
+    Write-Output "SERVICE_NOT_FOUND"
+}
